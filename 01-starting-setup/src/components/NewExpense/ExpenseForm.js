@@ -3,6 +3,8 @@ import './ExpenseForm.css';
 
 const ExpenseForm = (props) => {
 
+    const [addExpense,setAddExpense]= useState(false);
+
     const [enteredTitle,setEnteredTitle] = useState('');
 
     const [enteredAmount,setEnteredAmount] = useState('');
@@ -27,7 +29,7 @@ const ExpenseForm = (props) => {
 
         const expenseData = {
             title: enteredTitle,
-            amount: enteredAmount,
+            amount: +enteredAmount,
             date: new Date(enteredDate)
         };
 
@@ -38,11 +40,22 @@ const ExpenseForm = (props) => {
         setEnteredTitle('');
         setEnteredAmount('');
         setEnteredDate('');
+        setAddExpense(false);
 
     }
 
+   // let isAddExpense=false;
 
-    return <form onSubmit={submitHandler}>
+   const addExpenseHandler = () =>{
+       setAddExpense(true);
+   }
+
+   const cancelHandler = () =>{
+    setAddExpense(false);
+}
+
+    if(addExpense){
+        return <form onSubmit={submitHandler}>
         <div className='new-expense__controls'>
             <div className='new-expense__control'>
                 <label>Title</label>
@@ -59,8 +72,15 @@ const ExpenseForm = (props) => {
         </div>
         <div className=".new-expense__actions">
             <button type="submit">SUBMIT</button>
+            <button type="button" onClick={cancelHandler}>Cancel</button>
         </div>
     </form>
+    }
+
+    return <div className=".new-expense__actions">
+    <button type="button" onClick={addExpenseHandler}>Add New Expense</button>
+</div>
+    
 
 };
 
